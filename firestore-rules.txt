@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /trips/saddle-sore/{section}/{item} {
+      allow read: if section in ['picks', 'settings', 'ideas'];
+      allow create, update: if section in ['picks', 'settings', 'ideas']
+        && request.resource.data.size() <= 10;
+      allow delete: if section in ['picks', 'ideas'];
+    }
+  }
+}

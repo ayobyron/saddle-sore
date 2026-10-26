@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saddle Sore &amp; Skint</title>
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#EEEBE4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121A2A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Saddle Sore">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEEBE4; --surface:#FBFAF7; --ink:#1D2A40; --ink-2:#56627A; --line:#D7D1C5;
+  --red:#B2342A; --red-ink:#FFF4E6; --denim:#24395B; --denim-soft:#C9D4E6; --mustard:#DFA12A; --mustard-soft:#F2DDAE; --mustard-ink:#2A1E05;
+  --ok:#2F6B47; --warn:#9A6A08; --bad:#B2342A; --chip:#E3DED3; --btn-ink:#FBFAF7;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121A2A; --surface:#1A2538; --ink:#EEE8DC; --ink-2:#A6B0C2; --line:#2C3A55;
+    --red:#C0433A; --red-ink:#FFF4E6; --denim:#A9BFE3; --denim-soft:#2E4466; --mustard:#EDB948; --mustard-soft:#5A4512; --mustard-ink:#2A1E05;
+    --ok:#72C291; --warn:#EDB948; --bad:#F07A6E; --chip:#25324A; --btn-ink:#121A2A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121A2A; --surface:#1A2538; --ink:#EEE8DC; --ink-2:#A6B0C2; --line:#2C3A55;
+  --red:#C0433A; --red-ink:#FFF4E6; --denim:#A9BFE3; --denim-soft:#2E4466; --mustard:#EDB948; --mustard-soft:#5A4512; --mustard-ink:#2A1E05;
+  --ok:#72C291; --warn:#EDB948; --bad:#F07A6E; --chip:#25324A; --btn-ink:#121A2A;
+  color-scheme:dark;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 56px}
+h2,h3{font-family:"Alfa Slab One",Rockwell,"Roboto Slab",Georgia,serif;font-weight:400;margin:0;line-height:1.1}
+h2{font-size:23px}
+h3{font-size:18px}
+p{margin:0}
+a{color:var(--denim);font-weight:700}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+
+/* Poster */
+.poster{margin-top:16px;background:var(--red);color:var(--red-ink);border-radius:3px;padding:24px 22px 22px;box-shadow:inset 0 0 0 7px var(--red),inset 0 0 0 9px var(--red-ink)}
+.poster-line{font-family:"Alfa Slab One",Rockwell,Georgia,serif;font-size:17px}
+.poster-top{display:flex;align-items:center;gap:14px}
+.jon{flex:none;width:88px;height:88px;border-radius:50%;box-shadow:0 0 0 3px var(--red-ink)}
+.jon svg{display:block;width:100%;height:100%}
+.poster-title{font-family:"Alfa Slab One",Rockwell,Georgia,serif;font-weight:400;font-size:clamp(38px,11.5vw,74px);line-height:.92;color:var(--mustard);margin:8px 0 12px;text-shadow:3px 3px 0 rgba(0,0,0,.18)}
+.poster-sub{font-size:17px;font-weight:700}
+.poster-rule{height:3px;background:var(--red-ink);opacity:.85;margin:14px 0 10px;width:64px}
+.poster-tag{font-size:15px}
+
+/* Summary */
+.summary{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px}
+.sum-dates{font-family:"Alfa Slab One",Rockwell,Georgia,serif;font-size:26px;line-height:1.1;margin-top:8px;color:var(--red)}
+.sum-legs{margin-top:6px;font-size:15px;color:var(--ink-2)}
+.sum-cost{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sum-cost div{background:var(--paper);border-radius:6px;padding:10px 12px}
+.sum-cost b{display:block;font-size:18px}
+.sum-cost span{font-size:13px;color:var(--ink-2)}
+.empty-sum{margin-top:8px;color:var(--ink-2)}
+
+.cal{margin-top:14px;display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal .hd{font-size:12px;font-weight:700;color:var(--ink-2);text-align:center;padding-bottom:2px}
+.cal .c{min-height:38px;border-radius:4px;background:var(--paper);font-size:13px;padding:3px 4px;position:relative;color:var(--ink-2)}
+.cal .c.nash{background:var(--denim-soft);color:var(--ink)}
+.cal .c.aus{background:var(--mustard-soft);color:var(--ink)}
+.cal .c.out{outline:2px dashed var(--ink-2);outline-offset:-2px;color:var(--ink)}
+.cal .c i{display:block;font-style:normal;font-size:10px;font-weight:700;line-height:1.1;margin-top:1px}
+.cal .c i.f1{color:var(--red)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:13px;color:var(--ink-2)}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.legend .ln::before{background:var(--denim-soft)}
+.legend .la::before{background:var(--mustard-soft)}
+.legend .lo::before{outline:2px dashed var(--ink-2);outline-offset:-2px}
+
+.flags{list-style:none;margin:14px 0 0;padding:0}
+.flags li{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.flags li::before{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;margin-top:1px}
+.flags li.bad::before{content:"!";background:var(--bad)}
+.flags li.warn::before{content:"?";background:var(--warn);color:var(--mustard-ink)}
+.flags li.tbc::before{content:"…";background:var(--ink-2)}
+.flags li.good::before{content:"✓";background:var(--ok)}
+.alts{margin-top:12px}
+.alts p{font-size:14px;font-weight:700;margin-bottom:6px}
+.alt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:1px solid var(--line);border-radius:6px;padding:9px 12px;margin-top:6px;cursor:pointer;font-size:14px}
+.alt[aria-pressed="true"]{border:2px solid var(--red);padding:8px 11px}
+.alt small{margin-left:auto;color:var(--ink-2);white-space:nowrap}
+
+/* Sticky tabs + mini summary */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);margin:20px -16px 0;padding:8px 16px 8px;border-bottom:1px solid var(--line)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.tab{border:0;background:transparent;padding:10px 4px;border-radius:6px;font-weight:700;font-size:15px;color:var(--ink-2);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.mini{font-size:13px;color:var(--ink-2);margin-top:6px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini b{color:var(--ink)}
+
+.status{margin-top:12px;display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-2)}
+.dot{flex:none;width:9px;height:9px;border-radius:50%;margin-top:5px;background:var(--ink-2)}
+.dot.live{background:var(--ok)}
+.dot.warn{background:var(--warn)}
+
+.panel{padding-top:18px}
+.panel[hidden]{display:none}
+.section{margin-top:28px}
+.section:first-child{margin-top:0}
+.lead{margin-top:6px;color:var(--ink-2);font-size:15px}
+.group-h{margin:20px 0 2px;font-size:14px;font-weight:700;color:var(--ink-2)}
+
+/* Stepper */
+.stepper{display:flex;align-items:center;gap:12px;margin-top:10px}
+.stepper button{width:44px;height:44px;border-radius:6px;border:1px solid var(--line);background:var(--surface);font-size:22px;font-weight:700;cursor:pointer}
+.stepper button:disabled{opacity:.4;cursor:not-allowed}
+.stepper output{font-family:"Alfa Slab One",Georgia,serif;font-size:26px;min-width:40px;text-align:center}
+
+/* Pick cards */
+.pick{display:grid;grid-template-columns:1fr auto;gap:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-top:8px}
+.pick.on{border:2px solid var(--red);padding:11px 13px}
+.pick.big .pt{font-size:17px}
+.pt{font-weight:700;font-size:16px}
+.pn{grid-column:1/2;font-size:14px;color:var(--ink-2)}
+.pf{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pf span{background:var(--chip);border-radius:999px;padding:3px 9px;font-size:12px;font-weight:600}
+.pf span.price{background:var(--mustard-soft)}
+.pd{grid-column:1/-1;margin-top:8px;font-size:14px}
+.pd summary{cursor:pointer;font-weight:700;color:var(--denim);padding:4px 0}
+.pd p{margin-top:4px;color:var(--ink-2)}
+.plinks{margin:6px 0 0;padding-left:18px}
+.plinks li{margin-top:5px}
+.rl{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:3px;font-size:13px}
+.star{grid-row:1/3;grid-column:2;align-self:start;border:1px solid var(--line);background:transparent;border-radius:6px;padding:8px 10px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap}
+.star[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.star:disabled{cursor:not-allowed;opacity:.6}
+
+/* Costs */
+.who-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.who-row b{min-width:110px}
+.seg{display:inline-grid;grid-auto-flow:column;gap:4px;margin-left:auto}
+.seg button{border:1px solid var(--line);background:transparent;border-radius:6px;padding:7px 10px;font-weight:700;font-size:13px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.seg button:disabled{cursor:not-allowed;opacity:.6}
+.costblock{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px;margin-top:12px}
+.costblock h3{font-size:17px}
+.costblock .tot{font-family:"Alfa Slab One",Georgia,serif;font-size:24px;color:var(--red);margin-top:6px}
+.costblock .tot small{font-family:"Archivo",system-ui,sans-serif;font-size:14px;color:var(--ink-2);margin-left:6px}
+.lines{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+.lines td{padding:6px 0;border-top:1px solid var(--line);vertical-align:top}
+.lines td:last-child{text-align:right;white-space:nowrap;padding-left:10px;font-weight:600}
+.note{margin-top:12px;font-size:14px;color:var(--ink-2);border-left:3px solid var(--mustard);padding-left:10px}
+
+/* Travel */
+.days{list-style:none;margin:10px 0 0;padding:0}
+.days li{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.days .d{font-weight:700}
+.days .city{font-size:12px;font-weight:700;color:var(--ink-2)}
+.days li.key span:last-child{font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px;margin-top:10px}
+.card h3{font-size:17px}
+.legrow{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:15px;margin-top:8px}
+.legrow a{white-space:nowrap}
+.plain{margin:8px 0 0;padding-left:18px;font-size:15px}
+.plain li{margin-top:6px}
+.bham{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+
+/* Ideas */
+.idea-row{display:flex;gap:8px;margin-top:12px}
+.idea-row input{flex:1;min-width:0}
+input[type=text]{font:inherit;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.btn{border:0;border-radius:6px;padding:10px 14px;font-weight:700;background:var(--denim);color:var(--btn-ink);cursor:pointer}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--denim);border:2px solid var(--denim);margin-top:12px;width:100%}
+.ideas{list-style:none;margin:10px 0 0;padding:0}
+.ideas li{padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;display:flex;gap:10px;align-items:baseline}
+.ideas li .x{margin-left:auto;border:0;background:transparent;color:var(--ink-2);font-size:13px;text-decoration:underline;cursor:pointer;padding:0}
+.empty{margin-top:10px;font-size:14px;color:var(--ink-2)}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--paper);padding:10px 14px;border-radius:6px;font-size:14px;z-index:30;max-width:calc(100% - 32px)}
+.toast[hidden]{display:none}
+footer{margin-top:40px;font-size:13px;color:var(--ink-2)}
+@media (prefers-reduced-motion: no-preference){
+  .star,.pick,.alt,.seg button{transition:background-color .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="poster">
+    <div class="poster-top"><div class="jon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Cartoon Jon in a cowboy hat with his tongue out"> <defs> <clipPath id="jon-cl"><circle cx="120" cy="120" r="118"/></clipPath> <radialGradient id="jon-sk" cx="45%" cy="40%" r="70%"> <stop offset="0" stop-color="#F7D2B6"/><stop offset="1" stop-color="#E8AE8C"/> </radialGradient> <linearGradient id="jon-hat" x1="0" y1="0" x2="0" y2="1"> <stop offset="0" stop-color="#8A5A34"/><stop offset="1" stop-color="#5E3A1E"/> </linearGradient> </defs> <circle cx="120" cy="120" r="118" fill="#DFA12A"/> <g clip-path="url(#jon-cl)"> <circle cx="120" cy="120" r="104" fill="none" stroke="#FFF4E6" stroke-width="3" opacity=".7"/> <path d="M30,240 C34,214 70,198 120,196 C170,198 206,214 210,240 Z" fill="#F4F1EA"/> <path d="M102,192 L92,214 L118,204 Z M138,192 L148,214 L122,204 Z" fill="#E6E1D6"/> <path d="M120,204 L120,240" stroke="#D5CFC2" stroke-width="3"/> <path d="M104,170 L104,200 C112,206 128,206 136,200 L136,170 Z" fill="#E3A585"/> <ellipse cx="76" cy="132" rx="9" ry="14" fill="#EDB696"/> <ellipse cx="164" cy="132" rx="9" ry="14" fill="#EDB696"/> <path d="M75,100 C72,118 75,130 80,138 L86,102 Z" fill="#A65A2E"/> <path d="M165,100 C168,118 165,130 160,138 L154,102 Z" fill="#A65A2E"/> <path d="M78,118 C78,86 96,74 120,74 C144,74 162,86 162,118 C162,148 156,168 140,180 C130,188 110,188 100,180 C84,168 78,148 78,118 Z" fill="url(#jon-sk)"/> <path d="M79,130 C80,162 96,188 120,190 C144,188 160,162 161,130 C158,152 150,164 138,170 C132,166 126,164 120,164 C114,164 108,166 102,170 C90,164 82,152 79,130 Z" fill="#B8653A" opacity=".72"/> <path d="M102,156 C108,151 116,150 120,152 C124,150 132,151 138,156 C130,155 124,156 120,157 C116,156 110,155 102,156 Z" fill="#A9582F" opacity=".85"/> <ellipse cx="94" cy="150" rx="9" ry="5" fill="#F08A8A" opacity=".35"/> <ellipse cx="148" cy="150" rx="9" ry="5" fill="#F08A8A" opacity=".35"/> <path d="M88,118 C94,112 104,112 110,116" stroke="#8E4A24" stroke-width="5" stroke-linecap="round" fill="none"/> <path d="M131,112 C138,106 148,106 154,111" stroke="#8E4A24" stroke-width="5" stroke-linecap="round" fill="none"/> <path d="M89,133 C94,127 104,127 109,133" stroke="#2A1E14" stroke-width="4" stroke-linecap="round" fill="none"/> <path d="M88,134 L84,131 M110,134 L114,131" stroke="#2A1E14" stroke-width="2.5" stroke-linecap="round"/> <ellipse cx="143" cy="132" rx="11" ry="9" fill="#FFFFFF"/> <circle cx="143" cy="133" r="7" fill="#5C7E9E"/> <circle cx="143" cy="133" r="3.6" fill="#1D2530"/> <circle cx="140" cy="130" r="2.4" fill="#FFFFFF"/> <circle cx="146" cy="136" r="1.1" fill="#FFFFFF"/> <path d="M131,129 C136,122 151,122 156,129" stroke="#2A1E14" stroke-width="3.5" stroke-linecap="round" fill="none"/> <path d="M121,138 C119,146 116,150 120,152 C123,153 126,151 127,150" stroke="#C98663" stroke-width="2.5" stroke-linecap="round" fill="none"/> <path d="M100,158 C106,176 136,178 144,156 C132,162 112,162 100,158 Z" fill="#5A1E22"/> <path d="M102,159 C112,163 132,163 142,157 L141,161 C130,166 113,166 103,162 Z" fill="#FFFFFF"/> <path d="M118,166 C115,180 120,192 129,191 C137,190 139,178 134,165 C128,169 123,169 118,166 Z" fill="#EC7A86"/> <path d="M126,170 C126,178 127,184 128,187" stroke="#D45E6C" stroke-width="2" stroke-linecap="round" fill="none"/> <path d="M100,158 C98,156 97,154 98,152 M144,156 C147,155 148,152 147,150" stroke="#B26A4A" stroke-width="2" stroke-linecap="round" fill="none"/> <g transform="rotate(-7 120 92)"> <path d="M78,96 C78,74 80,58 86,48 C92,40 104,38 112,44 L120,50 L128,44 C136,38 148,40 154,48 C160,58 162,74 162,96 Z" fill="url(#jon-hat)"/> <path d="M100,46 C104,56 106,66 106,80 M140,46 C136,56 134,66 134,80" stroke="#4A2C15" stroke-width="2.5" fill="none" opacity=".45"/> <path d="M120,50 C119,62 119,76 120,90" stroke="#4A2C15" stroke-width="3" fill="none" opacity=".55"/> <path d="M80,84 C100,90 140,90 160,84 L161,96 C140,102 100,102 79,96 Z" fill="#B2342A"/> <path d="M14,78 C26,104 70,112 120,110 C170,112 214,104 226,78 C214,96 176,100 120,100 C64,100 26,96 14,78 Z" fill="#6B4224"/> <path d="M14,78 C26,104 70,112 120,110 C170,112 214,104 226,78" stroke="#4A2C15" stroke-width="3" fill="none"/> <path d="M92,58 C96,50 102,46 108,46" stroke="#A97A50" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"/> </g> <path d="M86,108 C92,98 104,100 108,106 C110,100 120,100 124,106 C118,104 112,110 106,110 C100,112 92,112 86,108 Z" fill="#A65A2E"/> </g></svg></div><p class="poster-line">Jon’s stag do</p></div>
+    <h1 class="poster-title">SADDLE SORE<br>&amp; SKINT</h1>
+    <p class="poster-sub">Nashville, October 2027</p>
+  </header>
+
+  <section class="summary" aria-labelledby="sum-h">
+    <h2 id="sum-h">Projected trip</h2>
+    <div id="sum-body"></div>
+  </section>
+
+  <div class="status" id="status" role="status"><span class="dot"></span><span>Connecting…</span></div>
+
+  <div class="bar">
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" data-tab="plan" aria-selected="true">Plan</button>
+      <button class="tab" role="tab" data-tab="costs" aria-selected="false">Costs</button>
+      <button class="tab" role="tab" data-tab="travel" aria-selected="false">Travel</button>
+    </nav>
+    <p class="mini" id="mini"></p>
+  </div>
+
+  <!-- PLAN -->
+  <section class="panel" id="panel-plan" role="tabpanel">
+    <div class="section">
+      <h2>Nights in Nashville</h2>
+      <p class="lead">Austin adds 4 nights on F1 weekend, or 3 nights otherwise.</p>
+      <div class="stepper">
+        <button id="n-minus" aria-label="One night fewer">−</button>
+        <output id="n-out">6</output>
+        <button id="n-plus" aria-label="One night more">+</button>
+      </div>
+    </div>
+    <div class="section">
+      <h2>The big ones</h2>
+      <p class="lead">These decide the dates. Add the ones we want and the plan above updates.</p>
+      <div id="big-list"></div>
+    </div>
+    <div class="section">
+      <h2>While we’re there</h2>
+      <p class="lead">Smaller stuff to fit around the big ones. We’ll book these later. The rating is roughly what each of us spends there: $ under $50, $$ $50–$100, $$$ over $100. Tap “More info and links” on any of them.</p>
+      <div id="small-list"></div>
+    </div>
+    <div class="section">
+      <h2>Add your own</h2>
+      <p class="lead">Seen something online? Paste the name or link here. Ayo will get Claude to research it and add it to the list.</p>
+      <div class="idea-row">
+        <input type="text" id="idea-in" maxlength="200" placeholder="e.g. Boat day on Percy Priest Lake" aria-label="Your idea">
+        <button class="btn" id="idea-add">Add</button>
+      </div>
+      <ul class="ideas" id="ideas"></ul>
+      <button class="btn ghost" id="idea-copy">Copy ideas to send to Claude</button>
+    </div>
+  </section>
+
+  <!-- COSTS -->
+  <section class="panel" id="panel-costs" role="tabpanel" hidden>
+    <div class="section">
+      <h2>Where everyone’s flying from</h2>
+      <div id="origins"></div>
+    </div>
+    <div class="section" id="f1tier-sec">
+      <h2>F1 seats</h2>
+      <div class="who-row"><b>Ticket type</b><div class="seg" id="f1tier"></div></div>
+    </div>
+    <div class="section">
+      <h2>Cost per person</h2>
+      <p class="lead">Flights, places to stay and tickets for the big events, with the three of us sharing rooms. Spending money isn’t included.</p>
+      <div id="costs"></div>
+    </div>
+    <div class="section">
+      <p class="note">These are estimates from 2026 prices, not quotes. Pounds use about $1.34 to the pound. Weekend nights in Nashville cost more, and F1 weekend pushes Austin hotels to several times their normal price. Bars, clubs and smaller activities get a $ to $$$ rating on the Plan tab instead of a price.</p>
+    </div>
+  </section>
+
+  <!-- TRAVEL -->
+  <section class="panel" id="panel-travel" role="tabpanel" hidden>
+    <div class="section">
+      <h2>Day by day</h2>
+      <p class="lead">The current itinerary. Free days get filled with picks in stage 2.</p>
+      <ul class="days" id="days"></ul>
+    </div>
+    <div class="section">
+      <h2>Flights</h2>
+      <div id="flights"></div>
+      <p class="note">British Airways flies nonstop from Heathrow to both Nashville and Austin, so the London lads can fly into one city and home from the other instead of doubling back. Airlines usually release seats about 11 months ahead.</p>
+    </div>
+    <div class="section">
+      <h2>Getting around</h2>
+      <ul class="plain">
+        <li>Ubers and walking in both cities. Downtown Nashville is very walkable.</li>
+        <li>Hire a car for day trips: Jack Daniel’s is about 1½ hours away, the nearest casino about 2½.</li>
+        <li>Rideshares can’t drop off at the F1 circuit on race weekend, so we’d use the official shuttles or a parking pass.</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>Before we go</h2>
+      <ul class="plain">
+        <li>UK passports need an ESTA. It costs $40.27 on the <a href="https://esta.cbp.dhs.gov/" target="_blank" rel="noopener">official US government site</a>. Ignore the middleman sites that charge more.</li>
+        <li>Check passports are valid for the whole trip.</li>
+        <li>Travel insurance, ideally with cover for F1 tickets.</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>When to book</h2>
+      <ul class="plain">
+        <li>Austin hotels for F1 weekend: as early as possible. They sell out and climb.</li>
+        <li>Flights: from late 2026, when October 2027 seats appear.</li>
+        <li>Football: once the SEC and NFL fixtures are out in 2027.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>Want something added or changed? Tell Ayo and it’ll show up here for everyone. Add this page to your home screen to use it like an app.</footer>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ===== Shared database settings (Firebase) =====
+   Claude fills this in. If it still says PASTE, the app works on this phone only. */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCD4AOgp-GcoVaM31Zurlftpr2HDtLHR54",
+  authDomain: "saddle-sore-bfe7f.firebaseapp.com",
+  projectId: "saddle-sore-bfe7f",
+  storageBucket: "saddle-sore-bfe7f.firebasestorage.app",
+  messagingSenderId: "715358367716",
+  appId: "1:715358367716:web:6ffb1e80907515e976e1f1",
+  measurementId: "G-MTCE69YTHQ"
+};
+const TRIP_ID = "saddle-sore";
+const FIREBASE_VERSION = "10.12.2";
+
+/* ===== Data ===== */
+const FX = 1.34;
+const CREW = [{id:"ayo", name:"Ayo", label:"Ayo"}, {id:"jon", name:"Jon", label:"Jon (the stag)"}, {id:"james", name:"James", label:"James"}];
+const ORIGINS = {lon:{label:"London", short:"London", code:"LHR"}, nyc:{label:"New York", short:"NYC", code:"New York"}};
+const DEFAULT_SET = {nights:6, choice:null, origins:{ayo:"nyc", jon:"lon", james:"lon"}, f1tier:"ga"};
+
+const MAP = (q, label) => [label || "Open in Google Maps", "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q)];
+const ACTS = [
+  {id:"f1", big:true, city:"aus", t:"F1 US Grand Prix, Austin", when:"Fri 22 – Sun 24 Oct", n:"Circuit of the Americas. 2026 prices: 3-day general admission $450, grandstands from about $710.", more:"Friday is practice, Saturday qualifying, Sunday the race. Rideshares can’t drop off at the circuit on race weekend, so it’s shuttles or a parking pass. Book Austin beds the moment we commit.", links:[["COTA tickets","https://circuitoftheamericas.com/event/f1/tickets/"],["F1 Experiences packages","https://f1experiences.com/"],["US Grand Prix budget planner","https://gpdestinations.com/budget-planner-us-grand-prix/"],MAP("Circuit of the Americas Austin")]},
+  {id:"cfb", big:true, city:"nash", t:"Vanderbilt college football", when:"A Saturday, dates TBC", n:"2027 home games against Auburn, Mississippi State, Oklahoma, South Carolina and Texas. Texas and Oklahoma will cost more.", price:[50,200], more:"Games are at FirstBank Stadium in Midtown, a short Uber from Broadway. SEC kick-off times are often only fixed a week or two before the game.", links:[["Vanderbilt football","https://vucommodores.com/sports/football/"],["Future Vanderbilt fixtures","https://fbschedules.com/ncaa/sec/vanderbilt-commodores.php"],MAP("FirstBank Stadium Nashville")]},
+  {id:"nfl", big:true, city:"nash", t:"Titans game in the new stadium", when:"A Sunday, fixtures out spring 2027", n:"The new enclosed Nissan Stadium opens for the 2027 season.", price:[100,300], more:"The new stadium sits right across the river from Broadway, so it’s a walk from the honky-tonks.", links:[["Titans schedule","https://www.tennesseetitans.com/schedule/"],MAP("Nissan Stadium Nashville")]},
+  {id:"halloween", big:true, city:"nash", t:"Halloween weekend in Nashville", when:"Fri 29 – Sun 31 Oct", n:"Fancy dress on Broadway. Costumes not optional.", price:[20,60], more:"Broadway goes all out on the weekend before Halloween. Sort costumes before we fly.", links:[["Visit Music City","https://www.visitmusiccity.com/"]]},
+
+  {id:"broadway", g:"nash", t:"Honky-tonk crawl on Broadway", when:"Best: any night", n:"Live bands in bar after bar. Weekend covers run $10–$20 a bar.", price:[40,80], more:"Pick a few from the honky-tonk list below and work down the street. Bands play from late morning until the early hours.", links:[["Visit Music City","https://www.visitmusiccity.com/"],MAP("Lower Broadway Nashville")]},
+  {id:"linedance", g:"nash", t:"Line dancing lesson, then a dance hall", when:"Best: Thu to Sat", n:"Group lessons are about $35–$40 each.", price:[35,40], more:"Wildhorse Saloon is the big dance hall downtown and runs lessons. Do the lesson early, then put it to use.", links:[["Wildhorse Saloon","https://wildhorsesaloon.com/"],MAP("line dancing lessons Nashville")]},
+  {id:"dayparty", g:"nash", t:"Day party or rooftop pool", when:"Best: weekends, early October", n:"Needs the weather on our side.", price:[30,100], more:"White Limozeen’s pool deck (in the rooftops list below) is the obvious pick.", links:[MAP("rooftop pool day party Nashville")]},
+  {id:"clubs", g:"nash", t:"Big night at a dance club", when:"Best: Fri or Sat", n:"For when the honky-tonks close.", price:[30,80], more:"See Night We Met and Tin Roof in the late-night list below.", links:[MAP("nightclubs Nashville")]},
+  {id:"gents", g:"nash", t:"Gentlemen’s club", when:"Best: any night", n:"Cover charge plus poor decisions.", price:[40,150], links:[MAP("gentlemen's club Nashville")]},
+  {id:"cowboy", g:"nash", t:"Cowboy day", when:"Best: a daytime, any day", n:"Trail ride, boot fitting, mechanical bull. Boots extra.", price:[80,200], more:"Trail rides are out of town, so book one with pickup or hire a car. Boot shops line Broadway.", links:[MAP("horseback trail rides near Nashville","Trail rides on Google Maps"),["Boot shops on Google Maps", "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("western boot shops Broadway Nashville")]]},
+  {id:"partybus", g:"nash", t:"Party wagon tour", when:"Best: a daytime, Fri or Sat", n:"90 minutes on an open-top party tractor or bus.", price:[35,50], links:[MAP("party wagon tour Nashville")]},
+  {id:"opry", g:"nash", t:"Grand Ole Opry show", when:"Best: Fri or Sat night", n:"The home of country music.", price:[50,150], links:[["Grand Ole Opry","https://www.opry.com/"],MAP("Grand Ole Opry House Nashville")]},
+  {id:"hotchicken", g:"nash", t:"Hot chicken crawl", when:"Best: lunch, any day", n:"Choose your heat level wisely.", price:[15,30], more:"Prince’s is the original. Hattie B’s is the famous one with the queue.", links:[["Hattie B’s","https://hattieb.com/"],MAP("Prince's Hot Chicken Nashville","Prince’s on Google Maps"),MAP("Hattie B's Hot Chicken Nashville","Hattie B’s on Google Maps")]},
+
+  {id:"roberts", g:"bars", t:"Robert’s Western World", when:"Best: an afternoon, any day", n:"Proper old-school country, and famous for its cheap fried bologna sandwich deal.", price:[15,40], links:[["Website","https://robertswesternworld.com/"],MAP("Robert's Western World Nashville")]},
+  {id:"tootsies", g:"bars", t:"Tootsie’s Orchid Lounge", when:"Best: late night", n:"The purple Broadway legend. Several stages, always rammed.", price:[20,50], links:[["Website","https://www.tootsies.net/"],MAP("Tootsie's Orchid Lounge Nashville")]},
+  {id:"htc", g:"bars", t:"Honky Tonk Central", when:"Best: Saturday night", n:"Three floors on the corner of 4th and Broadway, plus a rooftop.", price:[30,70], links:[MAP("Honky Tonk Central Nashville")]},
+  {id:"jellyroll", g:"bars", t:"Jelly Roll’s Goodnight Nashville", when:"Best: Fri or Sat", n:"Four floors, the highest rooftop on Broadway and an actual tattoo shop. Jon, you’ve been warned.", price:[40,90], links:[MAP("Jelly Roll's Goodnight Nashville")]},
+  {id:"thisbar", g:"bars", t:"Morgan Wallen’s This Bar", when:"Best: Fri or Sat", n:"One of the biggest on Broadway, with bands on several levels.", price:[40,90], links:[MAP("Morgan Wallen's This Bar Nashville")]},
+  {id:"olered", g:"bars", t:"Ole Red", when:"Best: any night", n:"Blake Shelton’s multi-level bar.", price:[40,90], links:[["Website","https://www.olered.com/"],MAP("Ole Red Nashville")]},
+  {id:"nudies", g:"bars", t:"Nudie’s Honky Tonk", when:"Best: early evening", n:"Claims the longest bar in Nashville: 100 feet, covered in silver dollars.", price:[20,50], links:[MAP("Nudie's Honky Tonk Nashville")]},
+  {id:"acme", g:"bars", t:"Acme Feed & Seed", when:"Best: sunset", n:"Big rooftop at the river end of Broadway, looking back up the strip.", price:[30,70], links:[MAP("Acme Feed & Seed Nashville")]},
+  {id:"whiskeybent", g:"bars", t:"Whiskey Bent Saloon", when:"Best: any night", n:"Country dance bands and a deep bourbon list.", price:[20,60], links:[MAP("Whiskey Bent Saloon Nashville")]},
+  {id:"bellbottoms", g:"bars", t:"Lainey Wilson’s Bell Bottoms Up", when:"Best: Fri or Sat", n:"Western-themed honky-tonk just off Broadway on 3rd Avenue.", price:[40,90], links:[MAP("Bell Bottoms Up Nashville")]},
+
+  {id:"jackson", g:"night", t:"L.A. Jackson rooftop", when:"Best: sunset drinks", n:"On top of the Thompson Hotel in the Gulch. The Nashville Scene’s best rooftop seven years running.", price:[60,140], links:[MAP("L.A. Jackson Thompson Nashville")]},
+  {id:"limozeen", g:"night", t:"White Limozeen", when:"Best: daytime, early October", n:"Pink Dolly Parton rooftop with a pool deck at the Graduate in Midtown. Peak stag photo.", price:[60,140], links:[MAP("White Limozeen Graduate Nashville")]},
+  {id:"proof", g:"night", t:"PROOF at the W", when:"Best: before a big night out", n:"Sleek rooftop bar on the W Nashville in the Gulch.", price:[60,140], links:[MAP("PROOF rooftop W Nashville")]},
+  {id:"nightwemet", g:"night", t:"Night We Met", when:"Best: Fri or Sat, late", n:"Nashville’s big electronic dance music club.", price:[50,120], links:[MAP("Night We Met Nashville")]},
+  {id:"tinroof", g:"night", t:"Tin Roof Demonbreun", when:"Best: Fri or Sat", n:"The original Tin Roof: bands in one room, DJs in the Green Room, and no cover on weekend nights.", price:[25,60], links:[MAP("Tin Roof Demonbreun Nashville")]},
+  {id:"losers", g:"night", t:"Losers and Winners, Midtown", when:"Best: Thu to Sat", n:"Two bars side by side with live music and more of a local crowd than Broadway.", price:[25,60], links:[MAP("Losers Bar and Grill Nashville")]},
+  {id:"paradise", g:"night", t:"Paradise Park Trailer Resort", when:"Best: very late", n:"Trailer-park-themed Broadway dive, best known as the last stop of the night.", price:[15,40], links:[MAP("Paradise Park Trailer Resort Nashville")]},
+  {id:"attaboy", g:"night", t:"Attaboy, East Nashville", when:"Best: a quieter night", n:"Speakeasy with no menu. Tell them what you like and they make it.", price:[50,100], links:[MAP("Attaboy Nashville")]},
+
+  {id:"whiskey", g:"trip", t:"Jack Daniel’s distillery", when:"Best: a weekday, 1½ hours’ drive", n:"Tour plus getting there.", price:[60,150], links:[["Jack Daniel’s","https://www.jackdaniels.com/"],MAP("Jack Daniel's Distillery Lynchburg")]},
+  {id:"casino", g:"trip", t:"Casino day for blackjack", when:"Best: a weekday, 2½ hours’ drive", n:"Tennessee has no casinos. Harrah’s Metropolis in Illinois is the nearest. Price is car hire and fuel, not your stake.", price:[40,80], links:[["Harrah’s Metropolis","https://www.caesars.com/harrahs-metropolis"],MAP("Harrah's Metropolis Casino")]},
+  {id:"sixth", g:"aus", city:"aus", t:"Sixth Street and Rainey Street nights", when:"Best: any night in Austin", n:"Austin’s two big bar strips.", price:[30,80], links:[["Visit Austin","https://www.austintexas.org/"],MAP("Rainey Street Austin","Rainey Street on Google Maps"),MAP("Sixth Street Austin","Sixth Street on Google Maps")]},
+  {id:"bbq", g:"aus", city:"aus", t:"Texas barbecue crawl", when:"Best: lunch, get there early", n:"Brisket, queues, no regrets.", price:[30,50], links:[["Franklin Barbecue","https://franklinbbq.com/"],["Terry Black’s","https://terryblacks.com/"]]}
+];
+const SMALL_GROUPS = [["nash","Things to do in Nashville"],["bars","Honky-tonks and bars"],["night","Rooftops, clubs and late nights"],["trip","Day trips from Nashville"],["aus","In Austin"]];
+const F1_PRICE = {ga:[450,500], gs:[710,1550]};
+const FLIGHTS = {lon:{single:[650,1200], multi:[750,1400]}, nyc:{single:[150,350], multi:[250,550]}};
+const DOMESTIC = [100,250];
+const STAY = {nash:[80,180], nashWk:[120,260], aus:[90,180], ausF1:[250,550]};
+const COSTED = {f1:"F1 tickets", cfb:"Vanderbilt tickets", nfl:"Titans tickets"};
+function rating(r){ return r[1] <= 50 ? "$" : r[1] <= 100 ? "$$" : "$$$"; }
+function gf(a, b, iso){ return "https://www.google.com/travel/flights?q=" + encodeURIComponent("One way flights from " + a + " to " + b + " on " + iso); }
+function stayLinks(city, leg){
+  const ci = info(leg.from).iso, co = info(leg.to).iso;
+  const name = city === "nash" ? "Nashville" : "Austin", slug = city === "nash" ? "Nashville--TN" : "Austin--TX";
+  return [["Booking.com", "https://www.booking.com/searchresults.html?ss=" + encodeURIComponent(name) + "&checkin=" + ci + "&checkout=" + co + "&group_adults=3&no_rooms=1"],
+          ["Airbnb", "https://www.airbnb.com/s/" + slug + "/homes?checkin=" + ci + "&checkout=" + co + "&adults=3"]];
+}
+function linkList(links){ return h("span",{class:"rl"}, links.map(l => h("a",{href:l[1], target:"_blank", rel:"noopener"}, l[0]))); }
+const DAILY = [130,250];
+const ESTA = 40;
+
+/* ===== Calendar helpers (index 0 = Mon 27 Sep 2027) ===== */
+const WD = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const OCT = d => d + 3;
+function info(i){ let m, d, mm; if (i < 4){ m="Sep"; d=27+i; mm="09"; } else if (i <= 34){ m="Oct"; d=i-3; mm="10"; } else { m="Nov"; d=i-34; mm="11"; } return {m, d, wd: WD[i % 7], iso: "2027-" + mm + "-" + String(d).padStart(2,"0")}; }
+function fmt(i){ const x = info(i); return x.wd + " " + x.d + " " + x.m; }
+function fmtRange(a, b){ const x = info(a), y = info(b); return x.wd + " " + x.d + (x.m === y.m ? "" : " " + x.m) + " – " + y.wd + " " + y.d + " " + y.m; }
+const F1_FROM = OCT(21), F1_TO = OCT(25);
+const WEEKEND_FRIS = [1, 8, 15, 22, 29];
+const CITY = {nash:"Nashville", aus:"Austin"};
+
+/* ===== State ===== */
+const S = {mode:"loading", reason:"", picks:{}, set:clone(DEFAULT_SET), ideas:[], tab:"plan"};
+let DB = null, setPending = false, setSaving = false, setDirty = false, setTimer = null;
+const inflight = new Set();
+const LS_KEY = "saddle-sore-v2";
+
+/* ===== Helpers ===== */
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function $(id){ return document.getElementById(id); }
+function h(tag, attrs, ...kids){
+  const e = document.createElement(tag);
+  if (attrs) for (const k in attrs){
+    const v = attrs[k];
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") e.className = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat()){
+    if (kid === null || kid === undefined || kid === false) continue;
+    e.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  }
+  return e;
+}
+function toast(msg){ const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(()=>{ t.hidden = true; }, 3200); }
+function canAct(){ return S.mode === "live" || S.mode === "local"; }
+function money$(n){ return "$" + (Math.round(n / 10) * 10).toLocaleString("en-GB"); }
+function moneyL(n){ return "£" + (Math.round(n / FX / 10) * 10).toLocaleString("en-GB"); }
+function kL(n){ const v = n / FX; return v >= 1000 ? "£" + (Math.round(v / 100) / 10).toFixed(1).replace(/\.0$/,"") + "k" : "£" + Math.round(v / 10) * 10; }
+function range$(r){ const a = money$(r[0]), b = money$(r[1]); return a === b ? a : a + "–" + b.slice(1); }
+function rangeL(r){ const a = moneyL(r[0]), b = moneyL(r[1]); return a === b ? a : a + "–" + b.slice(1); }
+function listJoin(a){ return a.length <= 1 ? a.join("") : a.slice(0,-1).join(", ") + " or " + a[a.length-1]; }
+function picked(){ return ACTS.filter(a => S.picks[a.id]); }
+function nights(){ const n = Number(S.set.nights) || 6; return Math.min(7, Math.max(3, n)); }
+
+/* ===== Planner ===== */
+function buildPlans(){
+  const N = nights();
+  const P = S.picks;
+  const austinExtras = ACTS.some(a => a.g === "aus" && P[a.id]);
+  const plans = [];
+  if (P.f1){
+    plans.push({id:"f1-before", label:"Nashville first, then Austin for F1", legs:[{city:"nash", from:F1_FROM - N, to:F1_FROM}, {city:"aus", from:F1_FROM, to:F1_TO}]});
+    plans.push({id:"f1-after", label:"Austin for F1, then Nashville", legs:[{city:"aus", from:F1_FROM, to:F1_TO}, {city:"nash", from:F1_TO, to:F1_TO + N}]});
+  } else {
+    WEEKEND_FRIS.forEach(f => {
+      const from = OCT(f) - 1;
+      const legs = [{city:"nash", from, to: from + N}];
+      if (austinExtras) legs.push({city:"aus", from: from + N, to: from + N + 3});
+      plans.push({id:"wk-" + f, label:"Nashville over the " + f + "–" + (f + 2) + " Oct weekend" + (austinExtras ? ", then Austin" : ""), legs, fri:f});
+    });
+  }
+  plans.forEach((p, idx) => {
+    p.from = p.legs[0].from; p.to = p.legs[p.legs.length - 1].to; p.nights = p.to - p.from;
+    p.nash = p.legs.find(l => l.city === "nash"); p.aus = p.legs.find(l => l.city === "aus") || null;
+    p.checks = checkPlan(p);
+    const pickChecks = p.checks.filter(c => c.pick);
+    p.fits = pickChecks.filter(c => c.s !== "bad").length;
+    p.total = pickChecks.length;
+    p.score = p.checks.reduce((s, c) => s + (c.s === "bad" ? -6 : c.s === "warn" ? (c.pick ? 1 : -1) : c.pick ? 3 : 0), 0) - p.nights * 0.05 - idx * 0.001;
+  });
+  return plans;
+}
+function inNash(p, i){ return p.nash.from < i && i < p.nash.to; }
+function checkPlan(p){
+  const P = S.picks, out = [];
+  const sats = [], suns = [];
+  for (let i = p.nash.from + 1; i < p.nash.to; i++){ if (i % 7 === 5) sats.push(i); if (i % 7 === 6) suns.push(i); }
+  if (P.f1) out.push({pick:true, s:"good", t:"F1 weekend in Austin, " + fmtRange(OCT(22), OCT(24)) + "."});
+  if (P.cfb){
+    if (!sats.length) out.push({pick:true, id:"cfb", s:"bad", t:"Vanderbilt game: there’s no full Saturday in Nashville on these dates. Add a night or try another option below."});
+    else out.push({pick:true, id:"cfb", s:"tbc", t:"Vanderbilt game needs a home game on " + listJoin(sats.map(fmt)) + ". SEC dates aren’t out yet."});
+  }
+  if (P.nfl){
+    if (!suns.length) out.push({pick:true, id:"nfl", s:"bad", t:"Titans game: there’s no Sunday in Nashville on these dates. Add a night or try another option below."});
+    else out.push({pick:true, id:"nfl", s:"tbc", t:"Titans game needs a home game on " + listJoin(suns.map(fmt)) + ". NFL fixtures come out in spring 2027."});
+  }
+  if (P.cfb && P.nfl && sats.length && suns.length){
+    const sameWeekend = sats.some(s => suns.includes(s + 1));
+    const twoWeekends = sats.length > 1 || suns.some(s => !sats.includes(s - 1));
+    if (sameWeekend && !twoWeekends) out.push({s:"warn", t:"Doing both means Vanderbilt and the Titans at home on the same weekend. That happens some weekends, not all, so check when fixtures land."});
+    else if (sameWeekend) out.push({s:"warn", t:"Doing both needs Vanderbilt and the Titans at home on weekends we’re there. Check when fixtures land."});
+  }
+  if (P.halloween){
+    const sat30 = OCT(30);
+    if (p.nash.from <= sat30 && sat30 < p.nash.to) out.push({pick:true, s:"good", t:"Halloween weekend is in the plan."});
+    else out.push({pick:true, id:"halloween", s:"bad", t:"Halloween weekend (29–31 Oct) falls outside our Nashville dates."});
+  }
+  if (P.dayparty){
+    const mid = (p.nash.from + p.nash.to) / 2;
+    if (mid <= OCT(17)) out.push({pick:true, s:"good", t:"Pool and day party weather should be on our side in early October."});
+    else out.push({pick:true, s:"warn", t:"Late October can be too cold for a pool. Rooftop day parties still run."});
+  }
+  ACTS.filter(a => a.g === "aus" && P[a.id]).forEach(a => {
+    if (!p.aus) out.push({pick:true, id:a.id, s:"bad", t:a.t + " needs an Austin leg."});
+  });
+  if (p.aus && !P.f1 && p.aus.from < F1_TO && p.aus.to > F1_FROM){
+    out.push({s:"warn", t:"Our Austin nights land on F1 weekend without tickets. Hotels cost several times normal then."});
+  }
+  const nightlife = ACTS.filter(a => P[a.id] && (a.g === "bars" || a.g === "night")).length;
+  const small = ACTS.filter(a => !a.big && P[a.id] && a.g !== "bars" && a.g !== "night").length + Math.ceil(nightlife / 3);
+  const bigDays = (P.f1 ? 3 : 0) + (P.cfb ? 1 : 0) + (P.nfl ? 1 : 0);
+  const free = Math.max(0, p.nights - 1 - bigDays);
+  if (small > free * 2 && small > 0) out.push({s:"warn", t:"That’s " + small + " smaller picks for about " + free + " free days. Something might have to give."});
+  ACTS.filter(a => P[a.id] && !["f1","cfb","nfl","halloween","dayparty"].includes(a.id) && a.g !== "aus").forEach(a => out.push({pick:true, s:"ok", t:a.t}));
+  ACTS.filter(a => P[a.id] && a.g === "aus" && p.aus).forEach(a => out.push({pick:true, s:"ok", t:a.t}));
+  return out;
+}
+function currentPlan(plans){
+  if (!picked().length) return null;
+  const sorted = plans.slice().sort((a,b) => b.score - a.score);
+  const chosen = plans.find(p => p.id === S.set.choice);
+  return {plan: chosen || sorted[0], best: sorted[0], sorted, chosenManually: !!chosen};
+}
+
+/* ===== Costs ===== */
+function costFor(p, origin){
+  const lines = [];
+  const add = (label, r, links) => lines.push([label, r, links || null]);
+  const air = {nash:"BNA", aus:"AUS"};
+  const first = p.legs[0], last = p.legs[p.legs.length - 1];
+  add("Flights from " + ORIGINS[origin].label + (p.aus ? ", in one city and home from the other" : ", return"), FLIGHTS[origin][p.aus ? "multi" : "single"],
+    [["Out on Google Flights", gf(ORIGINS[origin].code, air[first.city], info(first.from).iso)], ["Home on Google Flights", gf(air[last.city], ORIGINS[origin].code, info(last.to).iso)]]);
+  if (p.aus) add("Flight between Nashville and Austin", DOMESTIC, [["Google Flights", gf(air[first.city], air[p.legs[1].city], info(p.legs[1].from).iso)]]);
+  const nn = p.nash.to - p.nash.from;
+  let wk = 0;
+  for (let i = p.nash.from; i < p.nash.to; i++){ if (i % 7 === 4 || i % 7 === 5) wk++; }
+  const wd = nn - wk;
+  add("Nashville stay, " + nn + " nights" + (wk ? ", " + wk + " of them Fri or Sat" : ""), [STAY.nashWk[0] * wk + STAY.nash[0] * wd, STAY.nashWk[1] * wk + STAY.nash[1] * wd], stayLinks("nash", p.nash));
+  if (p.aus){
+    let f1n = 0, norm = 0;
+    for (let i = p.aus.from; i < p.aus.to; i++){ if (i >= F1_FROM && i < F1_TO) f1n++; else norm++; }
+    if (f1n) add("Austin stay, " + f1n + " nights at F1 prices", [STAY.ausF1[0] * f1n, STAY.ausF1[1] * f1n], norm ? null : stayLinks("aus", p.aus));
+    if (norm) add("Austin stay, " + norm + " nights", [STAY.aus[0] * norm, STAY.aus[1] * norm], stayLinks("aus", p.aus));
+  }
+  const skip = new Set(p.checks.filter(c => c.s === "bad" && c.id).map(c => c.id));
+  picked().forEach(a => {
+    if (skip.has(a.id) || !COSTED[a.id]) return;
+    const r = a.id === "f1" ? F1_PRICE[S.set.f1tier === "gs" ? "gs" : "ga"] : a.price;
+    if (r) add(COSTED[a.id], r, (a.links || []).filter(l => !l[1].includes("google.com/maps")).slice(0, 2));
+  });
+  const total = lines.reduce((s, l) => [s[0] + l[1][0], s[1] + l[1][1]], [0,0]);
+  return {lines, total};
+}
+function originsInUse(){
+  const o = S.set.origins || DEFAULT_SET.origins;
+  const groups = {};
+  CREW.forEach(c => { const k = o[c.id] === "nyc" ? "nyc" : "lon"; (groups[k] = groups[k] || []).push(c.name); });
+  return groups;
+}
+
+/* ===== Saving ===== */
+function loadLocal(){
+  try { const d = JSON.parse(localStorage.getItem(LS_KEY) || "null"); if (d){ S.picks = d.picks || {}; S.set = Object.assign(clone(DEFAULT_SET), d.set || {}); S.ideas = d.ideas || []; } } catch(e){}
+}
+function saveLocal(){ try { localStorage.setItem(LS_KEY, JSON.stringify({picks:S.picks, set:S.set, ideas:S.ideas})); } catch(e){} }
+function handleWriteError(e){
+  const code = e && e.code;
+  if (code === "permission-denied"){ toast("The database blocked that. Check the Firestore rules step."); return; }
+  if (code === "resource-exhausted" || code === "quota_exceeded") toast("The app’s storage is full. Delete a few ideas.");
+  else toast("Couldn’t save that. Check your connection and try again.");
+}
+function queueSet(){
+  if (S.mode === "local"){ saveLocal(); return; }
+  if (S.mode !== "live") return;
+  setPending = true;
+  clearTimeout(setTimer); setTimer = setTimeout(flushSet, 350);
+}
+async function flushSet(retried){
+  if (setSaving){ setDirty = true; return; }
+  setSaving = true;
+  try { await DB.doc("settings/trip").set(clone(S.set)); }
+  catch(e){
+    if (e && e.code === "unavailable" && !retried){ setSaving = false; setTimeout(() => flushSet(true), 600 + Math.random() * 900); return; }
+    handleWriteError(e);
+  }
+  finally {
+    setSaving = false;
+    if (setDirty){ setDirty = false; flushSet(); } else setPending = false;
+  }
+}
+
+/* ===== Actions ===== */
+async function togglePick(id){
+  if (!canAct() || inflight.has(id)) return;
+  const next = !S.picks[id];
+  if (S.mode === "local"){ S.picks[id] = next; if (!next) delete S.picks[id]; saveLocal(); render(); return; }
+  inflight.add(id);
+  S.picks[id] = next; if (!next) delete S.picks[id]; render();
+  try { await DB.doc("picks/" + id).set({on: next, at: Date.now()}); }
+  catch(e){ if (next) delete S.picks[id]; else S.picks[id] = true; render(); handleWriteError(e); }
+  finally { inflight.delete(id); }
+}
+function setNights(d){ if (!canAct()) return; const n = Math.min(7, Math.max(3, nights() + d)); if (n === nights()) return; S.set.nights = n; queueSet(); render(); }
+function choosePlan(id){ if (!canAct()) return; S.set.choice = id; queueSet(); render(); }
+function setOrigin(who, o){ if (!canAct()) return; S.set.origins = Object.assign({}, S.set.origins || DEFAULT_SET.origins, {[who]: o}); queueSet(); render(); }
+function setTier(t){ if (!canAct()) return; S.set.f1tier = t; queueSet(); render(); }
+async function addIdea(){
+  if (!canAct()) return;
+  const inp = $("idea-in"); const text = inp.value.trim().slice(0,200); if (!text) return;
+  const item = {text, at: Date.now()};
+  if (S.mode === "local"){ item.id = "l" + item.at; S.ideas = [item].concat(S.ideas); saveLocal(); inp.value = ""; render(); return; }
+  const btn = $("idea-add"); btn.disabled = true;
+  try { await DB.collection("ideas").add(item); inp.value = ""; }
+  catch(e){ handleWriteError(e); }
+  finally { btn.disabled = !canAct(); }
+}
+async function copyIdeas(){
+  if (!S.ideas.length){ toast("No ideas to copy yet."); return; }
+  const text = "Ideas from the Saddle Sore & Skint app. Please research these and add them to the list:\n" + S.ideas.map(i => "- " + i.text).join("\n");
+  try { await navigator.clipboard.writeText(text); toast("Copied. Paste it into your chat with Claude."); }
+  catch(e){ toast("Couldn’t copy. Long-press the ideas to copy them instead."); }
+}
+async function delIdea(id){
+  if (!canAct()) return;
+  if (S.mode === "local"){ S.ideas = S.ideas.filter(i => i.id !== id); saveLocal(); render(); return; }
+  try { await DB.doc("ideas/" + id).delete(); } catch(e){ handleWriteError(e); }
+}
+
+/* ===== Render ===== */
+function renderStatus(){
+  const s = $("status"); s.replaceChildren();
+  let cls = "dot", txt = "Connecting…";
+  if (S.mode === "live"){ cls += " live"; txt = "Live. Picks and changes show up for all three of us straight away."; }
+  else if (S.mode === "local"){
+    cls += " warn";
+    txt = S.reason === "setup" ? "Not connected to the shared database yet, so changes save on this phone only."
+        : S.reason === "rules" ? "The database is blocking changes. Check the Firestore rules step."
+        : "Can’t reach the shared database. Check your connection. Changes save on this phone for now.";
+  }
+  s.append(h("span",{class:cls}), h("span",null,txt));
+}
+function renderSummary(cp){
+  const b = $("sum-body"); b.replaceChildren();
+  if (!cp){
+    b.append(h("p",{class:"empty-sum"},"Nothing picked yet. Add a few things under Picks and dates and the dates, itinerary and costs fill in here."));
+    b.append(calendar(null));
+    return;
+  }
+  const p = cp.plan;
+  b.append(h("p",{class:"sum-dates"}, fmtRange(p.from, p.to)));
+  b.append(h("p",{class:"sum-legs"}, p.nights + " nights. " + p.legs.map(l => CITY[l.city] + " " + fmtRange(l.from, l.to) + " (" + (l.to - l.from) + ")").join(", then ") + "."));
+  b.append(calendar(p));
+  const g = originsInUse();
+  const cost = h("div",{class:"sum-cost"});
+  ["lon","nyc"].forEach(o => {
+    if (!g[o]) return;
+    const c = costFor(p, o).total;
+    cost.append(h("div",null, h("b",null, kL(c[0]) + "–" + kL(c[1]).slice(1)), h("span",null, "each from " + ORIGINS[o].label + " (" + g[o].join(", ") + ")")));
+  });
+  b.append(cost);
+  const flags = h("ul",{class:"flags"});
+  const issues = p.checks.filter(c => c.s === "bad" || c.s === "warn" || c.s === "tbc" || c.s === "good");
+  issues.forEach(c => flags.append(h("li",{class: c.s}, c.t)));
+  if (!p.checks.some(c => c.s === "bad" || c.s === "warn")) flags.append(h("li",{class:"good"}, "Everything we’ve picked fits these dates."));
+  b.append(flags);
+  if (cp.sorted.length > 1){
+    const alts = h("div",{class:"alts"}, h("p",null,"Other ways to do it"));
+    const shown = cp.sorted.slice(0, 3);
+    if (!shown.includes(p)) shown.push(p);
+    shown.forEach(o => {
+      const isCur = o.id === p.id;
+      alts.append(h("button",{class:"alt","aria-pressed":String(isCur), disabled:!canAct(), onclick:()=>choosePlan(o.id)},
+        h("span",null, o.label + (o.id === cp.best.id ? " (best fit)" : "")),
+        h("small",null, fmtRange(o.from, o.to).replace(/^\w+ /,"").replace(/– \w+ /,"– ") + ", fits " + o.fits + "/" + o.total)));
+    });
+    if (cp.chosenManually && cp.best.id !== p.id) alts.append(h("button",{class:"alt", disabled:!canAct(), onclick:()=>choosePlan(null)}, h("span",null,"Go back to the best fit")));
+    b.append(alts);
+  }
+}
+function calendar(p){
+  const wrap = h("div");
+  const cal = h("div",{class:"cal","aria-label":"Calendar, late September to early November 2027"});
+  ["M","T","W","T","F","S","S"].forEach(d => cal.append(h("div",{class:"hd","aria-hidden":"true"}, d)));
+  for (let i = 0; i < 42; i++){
+    const x = info(i);
+    let cls = "c";
+    if (p){ const leg = p.legs.find(l => i >= l.from && i < l.to); if (leg) cls += " " + leg.city; if (i === p.to) cls += " out"; }
+    const marks = [];
+    if (i >= OCT(22) && i <= OCT(24)) marks.push(h("i",{class:"f1"},"F1"));
+    if (i === OCT(31)) marks.push(h("i",null,"🎃"));
+    cal.append(h("div",{class:cls}, (x.d === 1 || i === 0 ? x.d + " " + x.m : String(x.d)), marks));
+  }
+  wrap.append(cal);
+  if (p) wrap.append(h("div",{class:"legend"}, h("span",{class:"ln"},"Nashville"), p.aus ? h("span",{class:"la"},"Austin") : null, h("span",{class:"lo"},"Fly home")));
+  return wrap;
+}
+function renderMini(cp){
+  const m = $("mini"); m.replaceChildren();
+  if (!cp){ m.append("Pick a few things to see dates and costs"); return; }
+  const p = cp.plan, g = originsInUse();
+  const o = g.lon ? "lon" : "nyc";
+  const c = costFor(p, o).total;
+  m.append(h("b",null, fmtRange(p.from, p.to).replace(/^\w+ /,"").replace(/– \w+ /,"– ")), ", " + p.nights + " nights, ", h("b",null, kL(c[0]) + "–" + kL(c[1]).slice(1)), " each from " + ORIGINS[o].short);
+}
+function pickCard(a){
+  const on = !!S.picks[a.id];
+  const price = a.id === "f1" ? "From $450 each" : COSTED[a.id] ? "About " + range$(a.price) + " each" : a.price ? rating(a.price) : null;
+  return h("div",{class:"pick" + (a.big ? " big" : "") + (on ? " on" : "")},
+    h("p",{class:"pt"}, a.t),
+    h("button",{class:"star","aria-pressed":String(on), disabled:!canAct(), onclick:()=>togglePick(a.id), "aria-label": (on ? "Remove " : "Add ") + a.t}, on ? "★ In" : "☆ Add"),
+    h("p",{class:"pn"}, a.n),
+    h("div",{class:"pf"}, h("span",null, a.when), price ? h("span",{class:"price"}, price) : null),
+    (a.more || (a.links && a.links.length)) ? h("details",{class:"pd"},
+      h("summary",null,"More info and links"),
+      a.more ? h("p",null,a.more) : null,
+      a.links && a.links.length ? h("ul",{class:"plinks"}, a.links.map(l => h("li",null, h("a",{href:l[1], target:"_blank", rel:"noopener"}, l[0])))) : null) : null
+  );
+}
+function renderPicks(){
+  const big = $("big-list"); big.replaceChildren();
+  ACTS.filter(a => a.big).forEach(a => big.append(pickCard(a)));
+  const sm = $("small-list"); sm.replaceChildren();
+  SMALL_GROUPS.forEach(([g, label]) => {
+    sm.append(h("p",{class:"group-h"}, label));
+    ACTS.filter(a => a.g === g).forEach(a => sm.append(pickCard(a)));
+  });
+  $("n-out").textContent = nights();
+  $("n-minus").disabled = !canAct() || nights() <= 3;
+  $("n-plus").disabled = !canAct() || nights() >= 7;
+}
+function renderIdeas(){
+  const ul = $("ideas"); ul.replaceChildren();
+  $("idea-in").disabled = !canAct(); $("idea-add").disabled = !canAct();
+  if (!S.ideas.length){ ul.append(h("li",{class:"empty"},"Nothing yet.")); return; }
+  S.ideas.forEach(i => ul.append(h("li",null, h("span",null,i.text), canAct() ? h("button",{class:"x", onclick:()=>delIdea(i.id), "aria-label":"Delete this idea"},"Delete") : null)));
+}
+function seg(values, labels, current, onPick){
+  return h("div",{class:"seg"}, values.map((v,i) => h("button",{"aria-pressed":String(current === v), disabled:!canAct(), onclick:()=>onPick(v)}, labels[i])));
+}
+function renderCosts(cp){
+  const o = $("origins"); o.replaceChildren();
+  const orig = S.set.origins || DEFAULT_SET.origins;
+  CREW.forEach(c => o.append(h("div",{class:"who-row"}, h("b",null,c.label), seg(["lon","nyc"],["London","New York"], orig[c.id] === "nyc" ? "nyc" : "lon", v=>setOrigin(c.id, v)))));
+  $("f1tier-sec").hidden = !S.picks.f1;
+  const t = $("f1tier"); t.replaceChildren(); t.append(...seg(["ga","gs"],["General admission","Grandstand"], S.set.f1tier === "gs" ? "gs" : "ga", setTier).childNodes);
+  const box = $("costs"); box.replaceChildren();
+  if (!cp){ box.append(h("p",{class:"empty"},"Pick a few things first and the costs appear here.")); return; }
+  const g = originsInUse();
+  let group = [0,0];
+  ["lon","nyc"].forEach(k => {
+    if (!g[k]) return;
+    const c = costFor(cp.plan, k);
+    group = [group[0] + c.total[0] * g[k].length, group[1] + c.total[1] * g[k].length];
+    const tb = h("table",{class:"lines"});
+    c.lines.forEach(l => tb.append(h("tr",null, h("td",null, l[0], l[2] && l[2].length ? linkList(l[2]) : null), h("td",null, l[1][0] === l[1][1] ? money$(l[1][0]) : range$(l[1])))));
+    box.append(h("div",{class:"costblock"},
+      h("h3",null,"From " + ORIGINS[k].label + ": " + g[k].join(", ")),
+      h("p",{class:"tot"}, rangeL(c.total), h("small",null, range$(c.total) + " each")),
+      tb));
+  });
+  box.append(h("div",{class:"costblock"}, h("h3",null,"Whole group, all three of us"), h("p",{class:"tot"}, rangeL(group), h("small",null, range$(group)))));
+}
+function renderTravel(cp){
+  const ul = $("days"); ul.replaceChildren();
+  const fl = $("flights"); fl.replaceChildren();
+  if (!cp){ ul.append(h("li",{class:"empty"},"Pick a few things first.")); return; }
+  const p = cp.plan, P = S.picks;
+  for (let i = p.from; i <= p.to; i++){
+    const leg = p.legs.find(l => i >= l.from && i < l.to);
+    const events = [];
+    if (i === p.from) events.push("Fly in to " + CITY[p.legs[0].city]);
+    p.legs.slice(1).forEach((l, k) => { if (i === l.from) events.push("Fly " + CITY[p.legs[k].city] + " to " + CITY[l.city]); });
+    if (i === p.to) events.push("Fly home");
+    if (P.f1 && p.aus && i === OCT(22)) events.push("F1 practice");
+    if (P.f1 && p.aus && i === OCT(23)) events.push("F1 qualifying day");
+    if (P.f1 && p.aus && i === OCT(24)) events.push("F1 race day");
+    if (leg && leg.city === "nash" && inNash(p, i)){
+      if (P.cfb && i % 7 === 5) events.push("Vanderbilt home game, if the fixtures fall our way");
+      if (P.nfl && i % 7 === 6) events.push("Titans home game, if the fixtures fall our way");
+      if (P.halloween && i === OCT(30)) events.push("Halloween night out");
+    }
+    const key = events.length > 0;
+    if (!key) events.push("Free day for picks");
+    ul.append(h("li",{class: key ? "key" : ""}, h("span",null, h("span",{class:"d"}, fmt(i)), h("br"), h("span",{class:"city"}, leg ? CITY[leg.city] : "Travel")), h("span",null, events.join(". ") + ".")));
+  }
+  const g = originsInUse();
+  ["lon","nyc"].forEach(k => {
+    if (!g[k]) return;
+    const code = ORIGINS[k].code;
+    const legsOut = [];
+    const first = p.legs[0], last = p.legs[p.legs.length - 1];
+    const air = {nash:"BNA", aus:"AUS"};
+    legsOut.push([ORIGINS[k].label + " to " + CITY[first.city], fmt(first.from), code, air[first.city], info(first.from).iso]);
+    p.legs.slice(1).forEach((l, idx) => legsOut.push([CITY[p.legs[idx].city] + " to " + CITY[l.city], fmt(l.from), air[p.legs[idx].city], air[l.city], info(l.from).iso]));
+    legsOut.push([CITY[last.city] + " to " + ORIGINS[k].label, fmt(last.to), air[last.city], code, info(last.to).iso]);
+    const card = h("div",{class:"card"}, h("h3",null, "From " + ORIGINS[k].label + ": " + g[k].join(", ")));
+    legsOut.forEach(r => {
+      const q = encodeURIComponent("One way flights from " + r[2] + " to " + r[3] + " on " + r[4]);
+      card.append(h("div",{class:"legrow"}, h("span",null, r[0], h("br"), h("span",{class:"city"}, r[1])), h("a",{href:"https://www.google.com/travel/flights?q=" + q, target:"_blank", rel:"noopener"}, "Check fares")));
+    });
+    if (k === "lon"){
+      const out = legsOut[0], back = legsOut[legsOut.length - 1];
+      const link = (a, b, d) => "https://www.google.com/travel/flights?q=" + encodeURIComponent("One way flights from " + a + " to " + b + " on " + d);
+      card.append(h("p",{class:"bham"}, "Worth comparing from Birmingham. Aer Lingus flies Birmingham to Nashville with one stop in Dublin, where you clear US immigration before you land. ", h("a",{href:link("BHX", out[3], out[4]), target:"_blank", rel:"noopener"}, "Birmingham to " + CITY[first.city]), " and ", h("a",{href:link(back[2], "BHX", back[4]), target:"_blank", rel:"noopener"}, CITY[last.city] + " to Birmingham"), "."));
+    }
+    fl.append(card);
+  });
+  const stay = h("div",{class:"card"}, h("h3",null,"Places to stay"));
+  p.legs.forEach(l => stay.append(h("div",{class:"legrow"}, h("span",null, CITY[l.city], h("br"), h("span",{class:"city"}, fmtRange(l.from, l.to))), linkList(stayLinks(l.city, l)))));
+  fl.append(stay);
+}
+function renderTabs(){
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === S.tab)));
+  ["plan","costs","travel"].forEach(t => { $("panel-" + t).hidden = t !== S.tab; });
+}
+function render(){
+  const plans = buildPlans();
+  const cp = currentPlan(plans);
+  renderStatus(); renderSummary(cp); renderMini(cp); renderTabs();
+  renderPicks(); renderIdeas(); renderCosts(cp); renderTravel(cp);
+}
+
+/* ===== Connect (Firebase) ===== */
+function makeDB(fs, db){
+  const seg = path => ["trips", TRIP_ID].concat(path.split("/"));
+  const wrap = d => ({id: d.id, exists: typeof d.exists === "function" ? d.exists() : true, data: () => d.data()});
+  return {
+    doc(path){
+      const ref = fs.doc(db, ...seg(path));
+      return {
+        set: data => fs.setDoc(ref, data),
+        delete: () => fs.deleteDoc(ref),
+        onSnapshot: (next, err) => fs.onSnapshot(ref, snap => next(wrap(snap)), err)
+      };
+    },
+    collection(path){
+      const ref = fs.collection(db, ...seg(path));
+      const mk = q => ({
+        add: data => fs.addDoc(ref, data),
+        orderBy: (f, dir) => mk(fs.query(q, fs.orderBy(f, dir))),
+        limit: n => mk(fs.query(q, fs.limit(n))),
+        onSnapshot: (next, err) => fs.onSnapshot(q, snap => next({docs: snap.docs.map(wrap)}), err)
+      });
+      return mk(ref);
+    }
+  };
+}
+function goLocal(reason){ S.mode = "local"; S.reason = reason; loadLocal(); render(); }
+async function connect(){
+  if (!FIREBASE_CONFIG.apiKey || FIREBASE_CONFIG.apiKey.startsWith("PASTE")){ goLocal("setup"); return; }
+  let fs, db;
+  try {
+    const base = "https://www.gstatic.com/firebasejs/" + FIREBASE_VERSION + "/";
+    const appMod = await import(base + "firebase-app.js");
+    fs = await import(base + "firebase-firestore.js");
+    db = fs.getFirestore(appMod.initializeApp(FIREBASE_CONFIG));
+  } catch(e){ goLocal("offline"); return; }
+  DB = makeDB(fs, db);
+  let gotPicks = false, gotSet = false;
+  const ready = () => { if (gotPicks && gotSet && S.mode === "loading") S.mode = "live"; render(); };
+  const fail = e => { if (S.mode !== "local") goLocal(e && e.code === "permission-denied" ? "rules" : "offline"); };
+  DB.collection("picks").onSnapshot(snap => {
+    const next = {};
+    snap.docs.forEach(d => { if (d.exists && d.data().on) next[d.id] = true; });
+    inflight.forEach(id => { if (S.picks[id]) next[id] = true; else delete next[id]; });
+    S.picks = next; gotPicks = true; ready();
+  }, fail);
+  DB.doc("settings/trip").onSnapshot(snap => {
+    if (!setPending){
+      const d = snap.exists ? snap.data() : {};
+      S.set = Object.assign(clone(DEFAULT_SET), clone(d || {}));
+      S.set.origins = Object.assign({}, DEFAULT_SET.origins, (d && d.origins) || {});
+    }
+    gotSet = true; ready();
+  }, fail);
+  DB.collection("ideas").orderBy("at","desc").limit(100).onSnapshot(snap => {
+    S.ideas = snap.docs.filter(d => d.exists).map(d => Object.assign({id: d.id}, d.data()));
+    render();
+  }, () => {});
+}
+
+/* ===== Wire up ===== */
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+  S.tab = b.dataset.tab; renderTabs();
+  const barH = document.querySelector(".bar").getBoundingClientRect().height;
+  const y = window.scrollY + $("panel-" + S.tab).getBoundingClientRect().top - barH - 12;
+  if (window.scrollY > y) window.scrollTo(0, Math.max(0, y));
+}));
+$("n-minus").addEventListener("click", () => setNights(-1));
+$("n-plus").addEventListener("click", () => setNights(1));
+$("idea-add").addEventListener("click", addIdea);
+$("idea-in").addEventListener("keydown", e => { if (e.key === "Enter") addIdea(); });
+const startTab = (location.hash || "").slice(1);
+if (["plan","costs","travel"].includes(startTab)) S.tab = startTab;
+$("idea-copy").addEventListener("click", copyIdeas);
+render();
+connect();
+if ("serviceWorker" in navigator) window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+</script>
+</body>
+</html>
